@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ruler-size: 24px;
+}
+
+/* Cursor crosshair pe canvas */
+.editor-canvas-wrapper {
+  cursor: crosshair;
+}
+.editor-canvas-wrapper.panning {
+  cursor: grab;
+}
+.editor-canvas-wrapper.panning:active {
+  cursor: grabbing;
+}

@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // dev: sqlite  |  prod: schimbi în "postgresql" + actualizezi DATABASE_URL
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+}
+
+// ─── Fonturi ──────────────────────────────────────────────────────────────────
+
+model Font {
+  id        String   @id @default(cuid())
+  name      String
+  storePath String   // cale internă în storage (ex: "fonts/abc123.ttf")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  orders    Order[]
+}
+
+// ─── Forme ────────────────────────────────────────────────────────────────────
+
+model Shape {
+  id        String  @id @default(cuid())
+  name      String
+  slug      String  @unique  // "heart" | "circle" | "star" | "stick"
+  svgPath   String?          // path data SVG override (null = built-in)
+  active    Boolean @default(true)
+  sortOrder Int     @default(0)
+}
+
+// ─── Setări globale (singleton) ───────────────────────────────────────────────
+
+model Settings {
+  id                    String   @id @default("singleton")
+  maxWidthMm            Float    @default(300)
+  maxHeightMm           Float    @default(200)
+  cutStrokeWidthMm      Float    @default(0.1)
+  brandName             String   @default("CakeTopper Studio")
+  logoStorePath         String?
+  // Livrare SVG pe email contra cost
+  emailDeliveryEnabled  Boolean  @default(true)
+  emailDeliveryPrice    Float    @default(15)
+  emailDeliveryNote     String   @default("Vei fi contactat pentru detalii de plată.")
+  updatedAt             DateTime @updatedAt
+}
+
+// ─── Comenzi ──────────────────────────────────────────────────────────────────
+
+model Order {
+  id            String   @id @default(cuid())
+  clientName    String
+  clientContact String
+  notes         String?
+  // "NEW" | "IN_PROGRESS" | "DONE"
+  status        String   @default("NEW")
+  designJson    String   // DesignState serializat — permite preview și re-editare
+  svgStorePath  String   // cale în storage spre SVG-ul generat
+  widthMm       Float
+  heightMm      Float
+  fontId        String?
+  font          Font?    @relation(fields: [fontId], references: [id])
+  // Livrare SVG pe email (opțional, contra cost)
+  deliveryEmail String?  // emailul clientului dacă a solicitat livrare
+  deliveryPrice Float?   // prețul reținut la momentul comenzii
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
