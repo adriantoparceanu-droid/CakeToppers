@@ -3,9 +3,10 @@ generator client {
 }
 
 datasource db {
-  // DEV: sqlite  —  PROD: vezi prisma/schema.prod.prisma
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  // PRODUCȚIE — Neon PostgreSQL
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")        // connection string cu pgbouncer (pooled)
+  directUrl = env("DATABASE_URL_UNPOOLED") // URL direct pentru migrate/push
 }
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────

@@ -11,7 +11,9 @@
     "db:migrate": "prisma migrate dev",
     "db:seed": "npx tsx prisma/seed.ts",
     "db:studio": "prisma studio",
-    "setup": "npm install && npx prisma db push && tsx prisma/seed.ts"
+    "setup": "npm install && npx prisma db push && tsx prisma/seed.ts",
+    "db:prod:push": "prisma db push --schema=prisma/schema.prod.prisma",
+    "db:prod:seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
     "next": "15.1.3",
