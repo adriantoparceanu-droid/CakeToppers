@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1059.0",
-    "@prisma/client": "^5.22.0",
+    "@prisma/client": "^6.19.3",
     "bcryptjs": "^2.4.3",
     "file-saver": "^2.0.5",
     "jose": "^5.9.6",
@@ -41,7 +41,7 @@
     "eslint": "^9.17.0",
     "eslint-config-next": "^15.5.19",
     "postcss": "^8.4.49",
-    "prisma": "^5.22.0",
+    "prisma": "^6.19.3",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
